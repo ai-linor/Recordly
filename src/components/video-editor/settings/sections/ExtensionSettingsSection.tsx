@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from "react";
+import { memo, useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { type ExtensionSettingField, extensionHost } from "@/lib/extensions";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -73,8 +73,7 @@ export const ExtensionSettingsSection = memo(({
 
 				if (field.type === "slider") {
 					const step = field.step ?? 0.01;
-					// Basic memoization for precision calculation
-					const precision = useMemo(() => getStepPrecision(step), [step]);
+					const precision = getStepPrecision(step);
 					
 					return (
 						<div key={field.id} className="mt-1">

@@ -141,6 +141,10 @@ const observerManager = {
 	},
 };
 
+function isKeyboardActivationKey(key: string): boolean {
+	return key === "Enter" || key === " ";
+}
+
 const WallpaperTile = memo(({
 	wallpaperUrl,
 	isSelected,
@@ -180,6 +184,13 @@ const WallpaperTile = memo(({
 			title={title}
 			onClick={onClick}
 			role="button"
+			tabIndex={0}
+			onKeyDown={(event) => {
+				if (isKeyboardActivationKey(event.key)) {
+					event.preventDefault();
+					onClick?.();
+				}
+			}}
 		>
 			<div className="absolute inset-[1px] overflow-hidden rounded-[8px] bg-editor-dialog">
 				{!isInView ? (
@@ -366,11 +377,13 @@ export const BackgroundSection = memo(({
 	};
 
 	const imageTiles = useMemo(() => [
-		...customImages.map((imageUrl, index) => ({
-			type: "custom" as const,
-			url: imageUrl,
-			id: `custom-${index}`
-		})),
+		...customImages
+			.filter((imageUrl) => !isVideoWallpaperSource(imageUrl))
+			.map((imageUrl, index) => ({
+				type: "custom" as const,
+				url: imageUrl,
+				id: `custom-${index}`
+			})),
 		...imageWallpaperTiles.map(tile => ({
 			type: "builtin" as const,
 			tile,
@@ -703,6 +716,14 @@ export const BackgroundSection = memo(({
 											onWallpaperChange(candidate);
 										}}
 										role="button"
+										tabIndex={0}
+										onKeyDown={(event) => {
+											if (isKeyboardActivationKey(event.key)) {
+												event.preventDefault();
+												setGradient(candidate);
+												onWallpaperChange(candidate);
+											}
+										}}
 									>
 										<div
 											className="absolute inset-[1px] overflow-hidden rounded-[8px]"

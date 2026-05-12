@@ -9,7 +9,7 @@ import { SettingsPanelShell } from "./components/SettingsPanelShell";
 import { SettingsSectionRouter } from "./components/SettingsSectionRouter";
 import { BUILTIN_CURSOR_STYLE_OPTIONS, GRADIENTS } from "./constants";
 import { useSettingsPanel } from "./hooks/useSettingsPanel";
-import { useSettingsSectionProps } from "./hooks/useSettingsSectionProps";
+import { createSettingsSectionProps } from "./hooks/useSettingsSectionProps";
 import {
 	createInvertedPreview,
 	createTrimmedSvgPreview,
@@ -319,7 +319,7 @@ export function SettingsPanel({
 		);
 	}
 
-	const sectionProps = useMemo(() => useSettingsSectionProps({
+	const sectionProps = useMemo(() => createSettingsSectionProps({
 		backgroundProps: {
 			tSettings,
 			t,

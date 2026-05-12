@@ -23,6 +23,6 @@ interface UseSettingsSectionPropsArgs {
 	generalSettingsProps: ComponentProps<typeof GeneralSettingsSection>;
 }
 
-export function useSettingsSectionProps(args: UseSettingsSectionPropsArgs) {
+export function createSettingsSectionProps(args: UseSettingsSectionPropsArgs) {
 	return args;
 }
