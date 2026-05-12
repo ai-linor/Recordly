@@ -7,3 +7,4 @@ export type {
 } from "./timeline/TimelineEditor";
 export { default as VideoEditor } from "./VideoEditor";
 export { default as VideoPlayback } from "./VideoPlayback";
+export * from "./editor/hooks";
