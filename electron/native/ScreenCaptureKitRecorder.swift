@@ -109,10 +109,10 @@ final class ScreenCaptureRecorder: NSObject, SCStreamOutput, SCStreamDelegate {
 
 			let candidateDisplay = availableContent.displays.first(where: {
 				$0.frame.intersects(window.frame) || $0.frame.contains(CGPoint(x: window.frame.midX, y: window.frame.midY))
-			}) ?? availableContent.displays.first
+			})
 
 			guard let display = candidateDisplay else {
-				throw NSError(domain: "RecordlyCapture", code: 4, userInfo: [NSLocalizedDescriptionKey: "No display found for window"])
+				throw NSError(domain: "RecordlyCapture", code: 4, userInfo: [NSLocalizedDescriptionKey: "No intersecting display found for window"])
 			}
 
 			filter = SCContentFilter(display: display, including: [window], exceptingApplications: [], exceptingWindows: [])
@@ -660,8 +660,8 @@ guard CommandLine.arguments.count >= 2 else {
 }
 
 // Force CoreGraphics Services initialization on the main thread.
-// Without this, SCContentFilter(desktopIndependentWindow:) crashes with
-// CGS_REQUIRE_INIT because CGS is never initialised in a CLI tool.
+// Without this, CoreGraphics operations may fail with CGS_REQUIRE_INIT
+// because CGS is never initialised in a CLI tool.
 let _ = CGMainDisplayID()
 
 // Pre-flight check: ensure screen recording permission is granted before
