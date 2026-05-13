@@ -40,6 +40,7 @@ interface UseTimelineEditorRuntimeParams {
 	trimRegions: TrimRegion[];
 	onTrimSpanChange?: (id: string, span: Span) => void;
 	clipRegions: ClipRegion[];
+	onClipAdded?: () => void;
 	onClipSplit?: (splitMs: number) => void;
 	onClipSpanChange?: (id: string, span: Span) => void;
 	onClipDelete?: (id: string) => void;
@@ -86,6 +87,7 @@ export function useTimelineEditorRuntime({
 	trimRegions,
 	onTrimSpanChange,
 	clipRegions,
+	onClipAdded,
 	onClipSplit,
 	onClipSpanChange,
 	onClipDelete,
@@ -201,6 +203,13 @@ export function useTimelineEditorRuntime({
 		onClipSplit(currentTimeMs);
 	}, [videoDuration, totalMs, currentTimeMs, onClipSplit]);
 
+	const handleAddClip = useCallback(() => {
+		if (!videoDuration || videoDuration === 0 || totalMs === 0 || !onClipAdded) {
+			return;
+		}
+		onClipAdded();
+	}, [videoDuration, totalMs, onClipAdded]);
+
 	const { handleAddAudio } = useTimelineAudioActions({
 		timeline: { videoDuration, totalMs, currentTimeMs },
 		regions: { audio: audioRegions },
@@ -259,13 +268,14 @@ export function useTimelineEditorRuntime({
 			addZoom: handleAddZoom,
 			suggestZooms: handleSuggestZooms,
 			splitClip: handleSplitClip,
+			addClip: handleAddClip,
 			addAnnotation: handleAddAnnotation,
 			addAudio: handleAddAudio,
 			keyframes,
                         zoomIn,
                         zoomOut,
 		}),
-		[handleAddAnnotation, handleAddAudio, handleAddZoom, handleSuggestZooms, handleSplitClip, keyframes, zoomIn, zoomOut],
+		[handleAddAnnotation, handleAddAudio, handleAddZoom, handleSuggestZooms, handleSplitClip, handleAddClip, keyframes, zoomIn, zoomOut],
 	);
 
 	return {

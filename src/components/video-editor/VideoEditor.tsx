@@ -3631,6 +3631,15 @@ export default function VideoEditor() {
 		}
 	}, []);
 
+	const handleClipAdded = useCallback(() => {
+		setClipRegions((prev) => {
+			const id = `clip-${nextClipIdRef.current++}`;
+			const startMs = 0;
+			const endMs = Math.min(5000, Math.round(duration * 1000));
+			return [...prev, { id, startMs, endMs, speed: 1 }];
+		});
+	}, [duration]);
+
 	const handleClipSplit = useCallback(
 		(splitMs: number) => {
 			setClipRegions((prev) => {
@@ -6210,6 +6219,14 @@ export default function VideoEditor() {
 										>
 											{t("timeline.audio.label")}
 										</DropdownMenuItem>
+										<DropdownMenuItem
+											onClick={() => {
+												timelineRef.current?.addClip();
+											}}
+											className="text-muted-foreground hover:text-foreground hover:bg-foreground/10 cursor-pointer"
+										>
+											{t("editor.toolbar.clip", "Clip")}
+										</DropdownMenuItem>
 									</DropdownMenuContent>
 								</DropdownMenu>
 								<div className="w-[1px] h-4 bg-foreground/10 mx-1" />
@@ -6426,6 +6443,7 @@ export default function VideoEditor() {
 						onSelectZoom={handleSelectZoom}
 						trimRegions={trimRegions}
 						clipRegions={clipRegions}
+						onClipAdded={handleClipAdded}
 						onClipSplit={handleClipSplit}
 						onClipSpanChange={handleClipSpanChange}
 						selectedClipId={selectedClipId}
