@@ -402,18 +402,18 @@ export function useSettingsPanel({
 			if (!result?.success || !result.path) return;
 			const filePath = result.path;
 			if (!isVideoWallpaperSource(filePath)) {
-				toast.error("Unsupported format", {
-					description: "Please select a video file (mp4, webm, mov, etc.)",
+				toast.error(tSettings("background.uploadVideoError", "Unsupported format"), {
+					description: tSettings("background.uploadVideoErrorDescription", "Please select a video file (mp4, webm, mov, etc.)"),
 				});
 				return;
 			}
 			setCustomImages((prev) => [filePath, ...prev]);
 			onWallpaperChange(filePath);
-			toast.success("Video background added");
+			toast.success(tSettings("background.uploadVideoSuccess", "Video background added"));
 		} catch {
-			toast.error("Failed to import video background");
+			toast.error(tSettings("background.uploadVideoFailed", "Failed to import video background"));
 		}
-	}, [onWallpaperChange]);
+	}, [onWallpaperChange, tSettings]);
 
 	const handleRemoveCustomImage = useCallback((imageUrl: string, event: React.MouseEvent) => {
 		event.stopPropagation();
