@@ -30,27 +30,23 @@ export function CropSection({
 		let { x, y, width, height } = crop;
 
 		if (side === "top") {
-			const bottomEdge = crop.y + crop.height;
-			const maxY = bottomEdge - MIN_DIMENSION;
-			const nextY = Math.min(v, maxY);
+			const nextY = Math.min(Math.max(v, 0), crop.y + crop.height - MIN_DIMENSION);
 			y = nextY;
-			height = bottomEdge - nextY;
+			height = Math.max(MIN_DIMENSION, crop.y + crop.height - nextY);
 		}
 
 		if (side === "left") {
-			const rightEdge = crop.x + crop.width;
-			const maxX = rightEdge - MIN_DIMENSION;
-			const nextX = Math.min(v, maxX);
+			const nextX = Math.min(Math.max(v, 0), crop.x + crop.width - MIN_DIMENSION);
 			x = nextX;
-			width = rightEdge - nextX;
+			width = Math.max(MIN_DIMENSION, crop.x + crop.width - nextX);
 		}
 
 		if (side === "bottom") {
-			height = Math.max(MIN_DIMENSION, 1 - crop.y - v);
+			height = Math.max(MIN_DIMENSION, 1 - crop.y - Math.max(v, 0));
 		}
 
 		if (side === "right") {
-			width = Math.max(MIN_DIMENSION, 1 - crop.x - v);
+			width = Math.max(MIN_DIMENSION, 1 - crop.x - Math.max(v, 0));
 		}
 
 		onCropChange({ x, y, width, height });

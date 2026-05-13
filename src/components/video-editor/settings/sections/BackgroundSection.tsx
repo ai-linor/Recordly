@@ -668,9 +668,17 @@ export const BackgroundSection = memo(({
 								/>
 								<div className="grid grid-cols-8 gap-1.5">
 									{visibleColorPalette.map((color) => (
-										<button
+										<div
 											key={color}
-											type="button"
+											role="button"
+											tabIndex={0}
+											onKeyDown={(event) => {
+												if (isKeyboardActivationKey(event.key)) {
+													event.preventDefault();
+													setSelectedColor(color);
+													onWallpaperChange(color);
+												}
+											}}
 											onClick={() => {
 												setSelectedColor(color);
 												onWallpaperChange(color);

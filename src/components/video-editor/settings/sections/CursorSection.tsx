@@ -194,9 +194,7 @@ export const CursorSection = memo(({
 		onCursorSpringMassMultiplierChange?.(initialEditorPreferences.cursorSpringMassMultiplier);
 		onCursorMotionBlurChange?.(initialEditorPreferences.cursorMotionBlur);
 		onCursorClickBounceChange?.(initialEditorPreferences.cursorClickBounce);
-		onCursorClickBounceDurationChange?.(
-			initialEditorPreferences.cursorClickBounceDuration ?? DEFAULT_CURSOR_CLICK_BOUNCE_DURATION,
-		);
+		onCursorClickBounceDurationChange?.(initialEditorPreferences.cursorClickBounceDuration);
 		onCursorSwayChange?.(initialEditorPreferences.cursorSway);
 	};
 
