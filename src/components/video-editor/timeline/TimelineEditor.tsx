@@ -373,6 +373,8 @@ const TimelineEditor = forwardRef<TimelineEditorHandle, TimelineEditorProps>(
 			isMac,
 			keyShortcuts,
 			isTimelineFocusedRef,
+			zoomIn,
+			zoomOut,
 		});
 
 		if (!videoDuration || videoDuration === 0) {
